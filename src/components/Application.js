@@ -26,10 +26,30 @@ export default function Application(props) {
   
   const appointments = getAppointmentsForDay(state, state.day);
 
+  function bookInterview(id, interview) {
+    console.log('in bookInterview:',id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    console.log('appointment:', appointment)
+    console.log('appointments:', appointments)
+     console.log('updated state:', state.appointments)
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
+    .then(results => {
+      console.log('in then:', results)
+      setState({...state, appointments});
+    })
+    .catch(err => console.log(err));
+  }
+
   const schedule = appointments.map((appointment) => {
   const interview = getInterview(state, appointment.interview);
   const interviewers = getInterviewersForDay(state, {day: state.day, interviewers:state.interviewers}) || [];
-  console.log('interviewers:', interviewers)
     return (
       <Appointment
         key={appointment.id}
@@ -37,9 +57,12 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
         />
     );
   });
+
+  
   return (
     <main className="layout">
       <section className="sidebar">

@@ -45,7 +45,6 @@ function getInterviewersForDay(state, day) {
       ret.push(state.interviewers[key]);
     }
   }
-  console.log('in selectors:', ret);
   return ret;
 }
 
