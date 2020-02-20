@@ -38,14 +38,14 @@ function getInterviewersForDay(state, day) {
   if (appointmentDay.length === 0) {
     return [];
   }
-  console.log('appointmentDay:', appointmentDay)
+  
   let ret = [];
-  for (const key of Object.keys(state.appointments)) {
-    if (appointmentDay[0].appointments.includes(state.appointments[key].id)) {
-      ret.push(state.appointments[key]);
+  for (const key of Object.keys(state.interviewers)) {
+    if (appointmentDay[0].interviewers.includes(state.interviewers[key].id)) {
+      ret.push(state.interviewers[key]);
     }
   }
-  console.log('in slectors:', ret);
+  console.log('in selectors:', ret);
   return ret;
 }
 

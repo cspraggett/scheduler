@@ -20,10 +20,11 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+  console.log('In index',props.interviewer)
   return <article className="appointment">
     <Header time={props.time}></Header>
     {mode === CREATE && (
-      <Form interviewers={[]}
+      <Form interviewers={props.interviewers}
             // onSave={props.onSave}
             onCancel={() => back()} 
             />

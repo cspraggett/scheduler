@@ -20,8 +20,6 @@ export default function Form(props) {
   const save = () => {
     props.onSave(name, interviewer)
   }
-  console.log({props})
-  // const changeName = e => setName(e.target.value);
 
   return <main className="appointment__card appointment__card--create">
   <section className="appointment__card-left">
@@ -36,14 +34,11 @@ export default function Form(props) {
         onChange={e => setName(e.target.value)}
         placeholder= {name || "Enter Student Name"}
        
-        
-       
       />
     </form>
     <InterviewerList interviewers={props.interviewers}
        value={interviewer} 
        onChange={ e => {
-          console.log(e)
           return setInterviewer(e)}} 
         //
         />
