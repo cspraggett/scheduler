@@ -6,7 +6,7 @@ import "components/DayList";
 import DayList from "components/DayList";
 // import InterviewerList from "components/InterviewerList";
 import Appointment from "components/Appointment";
-import {getAppointmentsForDay, getInterview} from "helpers/selectors"
+import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "helpers/selectors"
 
 // const appointments = [
 //   {
@@ -103,20 +103,13 @@ export default function Application(props) {
       console.log(all);
       setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}));
     })
-    
-    
-    // axios.get("http://localhost:8001/api/days")
-    //   .then(results => {
-    //     // console.log(results.data)
-    //     // setDays(results.data)
-    //     // console.log(days)
-    //   });
   },[])
 
   const appointments = getAppointmentsForDay(state, state.day);
 
   const schedule = appointments.map((appointment) => {
-    const interview = getInterview(state, appointment.interview);
+  const interview = getInterview(state, appointment.interview);
+  
 
     return (
       <Appointment
@@ -127,8 +120,10 @@ export default function Application(props) {
         />
     );
   });
-  // console.log(getAppointmentsForDay(state, state.day));
-  console.log('interviewers', state.interviewers);
+  const interviewers = getInterviewersForDay(state, {day: state.day, interviewers:state.interviewers});
+  console.log('interviewers***', interviewers);
+
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -151,7 +146,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-        {<Appointment key="last" time="5pm" />}
+        {<Appointment key="last" time="5pm"/>}
       </section>
     </main>
   );
