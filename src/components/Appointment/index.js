@@ -21,10 +21,10 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
    
-  const deleteInterview = ((studentName,interviewer) => {
-    console.log('in in delete' ,studentName, interviewer)
+  const deleteInterview = (() => {
+    console.log('in in delete' , props.id)
     transition(DELETE);
-    props.cancelInterview(studentName, interviewer.id)
+    props.cancelInterview(props.id)
       .then(() => transition(EMPTY));
   });
 
@@ -42,6 +42,8 @@ export default function Appointment(props) {
     <Header time={props.time}></Header>
     {mode === CONFIRM && (
       <Confirm
+      onClick={(() => deleteInterview)}
+      onCancel={() => back()}
       message="Are you sure you want to delete?" />
     )}
     {mode === DELETE && (
@@ -63,7 +65,7 @@ export default function Appointment(props) {
     {mode === SHOW && (
     <Show student={props.interview.student} 
     interviewer={props.interview.interviewer}
-    onDelete={deleteInterview}
+    onDelete={() => transition(CONFIRM)}
     />    
     )}
     

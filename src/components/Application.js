@@ -27,16 +27,16 @@ export default function Application(props) {
   
   const appointments = getAppointmentsForDay(state, state.day);
 
-  const cancelInterview = (studentName, interviewer) => {
-    console.log("in cancelInterview-id =", studentName, interviewer)
-    let interviewId;
-    for (const [key, value] of Object.entries(state.appointments)) {
-      if (value.interview) {
-      ((value.interview.student === studentName) && (value.interview.interviewer === interviewer) && (interviewId = key))
-      }
-    }
-    console.log('Interview #:', interviewId)
-    return axios.delete(`http://localhost:8001/api/appointments/${interviewId}`)
+  const cancelInterview = (id) => {
+    console.log("in cancelInterview-id =", id)
+    // let interviewId;
+    // for (const [key, value] of Object.entries(state.appointments)) {
+    //   if (value.interview) {
+    //   ((value.interview.student === studentName) && (value.interview.interviewer === interviewer) && (interviewId = key))
+    //   }
+    // }
+    // console.log('Interview #:', interviewId)
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(result => console.log(result))
       .catch(error => console.log(error));
   }
