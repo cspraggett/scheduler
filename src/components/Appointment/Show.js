@@ -1,6 +1,9 @@
 import React from "react";
 
 export default function Show(props) {
+  console.log('show props:', props);
+  const onDelete = () => props.onDelete(props.student, props.interviewer)
+  
   return <main className="appointment__card appointment__card--show">
   <section className="appointment__card-left">
     <h2 className="text--regular">{props.student}</h2>
@@ -19,7 +22,7 @@ export default function Show(props) {
       />
       <img
         className="appointment__actions-button"
-        onClick={props.onDelete}
+        onClick={onDelete}
         src="images/trash.png"
         alt="Delete"
       />

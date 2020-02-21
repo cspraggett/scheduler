@@ -20,14 +20,28 @@ export default function Application(props) {
       axios.get("http://localhost:8001/api/interviewers")
     ])
     .then((all) => {
-      setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}));
+      setState(prev => ({ ...prev, days: all[0].data, appointments:
+         all[1].data, interviewers: all[2].data}));
     })
   },[])
   
   const appointments = getAppointmentsForDay(state, state.day);
 
+  const cancelInterview = (studentName, interviewer) => {
+    console.log("in cancelInterview-id =", studentName, interviewer)
+    let interviewId;
+    for (const [key, value] of Object.entries(state.appointments)) {
+      if (value.interview) {
+      ((value.interview.student === studentName) && (value.interview.interviewer === interviewer) && (interviewId = key))
+      }
+    }
+    console.log('Interview #:', interviewId)
+    return axios.delete(`http://localhost:8001/api/appointments/${interviewId}`)
+      .then(result => console.log(result))
+      .catch(error => console.log(error));
+  }
+
   function bookInterview(id, interview) {
-    console.log('in bookInterview:',id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -36,12 +50,8 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    console.log('appointment:', appointment)
-    console.log('appointments:', appointments)
-     console.log('updated state:', state.appointments)
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
     .then(results => {
-      console.log('in then:', results)
       setState({...state, appointments});
     })
     .catch(err => console.log(err));
@@ -58,10 +68,12 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
         />
     );
   });
 
+  
   
   return (
     <main className="layout">
