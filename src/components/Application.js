@@ -37,8 +37,8 @@ export default function Application(props) {
     // }
     // console.log('Interview #:', interviewId)
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(result => console.log(result))
-      .catch(error => console.log(error));
+      .then(result => console.log('in result:', result))
+      .catch(error => PromiseRejectionEvent());
   }
 
   function bookInterview(id, interview) {
@@ -54,7 +54,7 @@ export default function Application(props) {
     .then(results => {
       setState({...state, appointments});
     })
-    .catch(err => console.log(err));
+    .catch(err => PromiseRejectionEvent());
   }
 
   const schedule = appointments.map((appointment) => {
