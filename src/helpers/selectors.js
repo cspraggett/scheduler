@@ -17,7 +17,8 @@
 }
 
  function getInterview(state, interview) {
-  if (!interview) {
+  console.log('in getInterview', interview)
+  if (!interview || !interview.interviewer) {
     return null;
   }
   return {
