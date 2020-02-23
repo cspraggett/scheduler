@@ -26,7 +26,6 @@ export default function Appointment(props) {
   );
    
   const deleteInterview = (() => {
-    console.log('in in delete' , props.id)
     transition(DELETE, true);
     props.cancelInterview(props.id)
       .then(() => transition(EMPTY))
@@ -41,7 +40,6 @@ export default function Appointment(props) {
     transition(SAVE);
     props.bookInterview(props.id, interview)
     .then(() => {
-      console.log('in promise',props)
     transition(SHOW)
     })
     .catch((err) => transition(SAVE_ERROR, true));
@@ -89,7 +87,7 @@ export default function Appointment(props) {
     )}
     {mode === EMPTY && <Empty 
      onAdd={() => transition(CREATE)} />}
-    {mode === SHOW && (
+    {mode === SHOW && props.interview && (
     <Show student={props.interview.student} 
     interviewer={props.interview.interviewer}
     onDelete={() => transition(CONFIRM)}

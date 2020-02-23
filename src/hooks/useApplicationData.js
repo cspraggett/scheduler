@@ -1,24 +1,20 @@
 import {useReducer, useEffect} from 'react';
 import axios from "axios";
 
+
 // export default function useApplicationData() {
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
-  let i = 0;
+  
+
   function reducer(state, action) {
-    console.log(`In reducer ${++i} times`);
-    console.log(state)
-    console.log(action)
     switch (action.type) {
       case SET_DAY:
         return {...state, day:action.day}
       case SET_APPLICATION_DATA:
         return {...state, day:state.day, days:action.days, appointments:action.appointments, interviewers:action.interviewers}
       case SET_INTERVIEW:
-        console.log('set_interview - oldState', state);
-        console.log('set_interview - newState', action.newState)
-        
         return {...action.newState,};
     
     default:
@@ -36,6 +32,13 @@ import axios from "axios";
 
 
   useEffect(() => {
+    // webSocket.onopen = ((event) => {
+    //   webSocket.send('Ping');
+
+    // })
+    //     webSocket.onmessage = (event => {
+    //       console.log('message recieved:')
+    //     })
     Promise.all([
       axios.get("http://localhost:8001/api/days"),
       axios.get("http://localhost:8001/api/appointments"),
@@ -45,13 +48,36 @@ import axios from "axios";
       dispatch({type: SET_APPLICATION_DATA, day: "Monday", days: all[0].data, appointments:
         all[1].data, interviewers: all[2].data })
     }) 
-  },[state.appointment])
+  },[])
 
+  useEffect(() => {
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    // webSocket.onmessage = (event => {
+    //   console.log('message recieved:')
+    // }) 
+    webSocket.onopen = ((event) => {
+      // webSocket.send('ping');
+      
+    })
+    webSocket.onmessage = (event => {
+      const newData = JSON.parse(event.data);
+      console.log(newData);
+      // if (newData.type = SET_INTERVIEW && newData.id !== state.appointments.id) {
+      //   newData.interview ? bookInterview(newData.id, newData.interview) : cancelInterview(newData.id);
+      //   webSocket.send(SET_INTERVIEW)
+      // }
+      // console.log('socket ready state', webSocket.readyState)
+    })
+    
+        
+  })
 
+  
+
+  
   // const appointments = getAppointmentsForDay(state, state.day);
 
   const cancelInterview = (id) => {
-    console.log("in cancelInterview-id =", id)
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(result => {
         const newAppointments = state.appointments[id].interview = null;
@@ -64,7 +90,7 @@ import axios from "axios";
         }) 
         dispatch({type: SET_INTERVIEW, newState: newState})
       })
-      .catch(error => PromiseRejectionEvent());
+      .catch(err => console.log(err));
   }
 
   function bookInterview(id, interview) {
@@ -82,7 +108,6 @@ import axios from "axios";
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
     .then(results => {
       const newState = {...state, appointments}
-      // console.log('days', newState.days[appointment.day].spots)
       newState.days.filter(curr => {
         
         if (curr.name === newState.day) {
@@ -91,7 +116,7 @@ import axios from "axios";
       }) 
       dispatch({ type: SET_INTERVIEW, newState: newState })
     })
-    .catch(err => PromiseRejectionEvent())
+    .catch(err => console.log(err))//new PromiseRejectionEvent())
     // dispatch({type: SET_INTERVIEW, id:id, interview:interview});
   }
 

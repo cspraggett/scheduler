@@ -8,9 +8,7 @@ export default function useVisualMode(initial) {
 
     if (replace) {
       let temp = history.slice(0, history.length - 1);
-      console.log('tempy', temp)
       setHistory([...temp, value]);
-      console.log('the history', history)
     } else {
       setHistory([...history, value]);
     }
