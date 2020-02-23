@@ -16,6 +16,7 @@ import axios from "axios";
       case SET_APPLICATION_DATA:
         return {...state, day:state.day, days:action.days, appointments:action.appointments, interviewers:action.interviewers}
       case SET_INTERVIEW:
+        return {state};
         // const appointment = {
         //   ...state.appointments[action.id],
         //   interview: { ...action.interview }
@@ -55,10 +56,10 @@ import axios from "axios";
       axios.get("http://localhost:8001/api/interviewers")
     ])
     .then((all) => {
-      dispatch({type: SET_APPLICATION_DATA, day: state.day, days: all[0].data, appointments:
+      dispatch({type: SET_APPLICATION_DATA, day: "Monday", days: all[0].data, appointments:
         all[1].data, interviewers: all[2].data })
     }) 
-  },[state.day])
+  },[])
 
 
   // const appointments = getAppointmentsForDay(state, state.day);
@@ -86,9 +87,9 @@ import axios from "axios";
       console.log('in hook:', state, id, appointments)
       const newState = {...state, appointments}
       console.log('old state:', state, '\n\nnew state', newState);
-      //  return newState;
+      
     })
-    .catch(err => PromiseRejectionEvent());
+    .catch(err => PromiseRejectionEvent())
     // dispatch({type: SET_INTERVIEW, id:id, interview:interview});
   }
 

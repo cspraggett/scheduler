@@ -16,12 +16,13 @@ export default function Application(props) {
   } = useApplicationData();
   
   const appointments = getAppointmentsForDay(state, state.day);
-
+  console.log('in application', appointments)
 
 
   const schedule = appointments.map((appointment) => {
-  const interview = getInterview(state, appointment.interview);
-  const interviewers = getInterviewersForDay(state, {day: state.day, interviewers:state.interviewers}) || [];
+    const interview = getInterview(state, appointment.interview);
+    const interviewers = getInterviewersForDay(state, {day: state.day, interviewers:state.interviewers}) || [];
+    console.log('in schedule - appointment:', appointment)
     return (
       <Appointment
         key={appointment.id}
