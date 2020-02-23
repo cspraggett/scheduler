@@ -16,24 +16,9 @@ import axios from "axios";
       case SET_APPLICATION_DATA:
         return {...state, day:state.day, days:action.days, appointments:action.appointments, interviewers:action.interviewers}
       case SET_INTERVIEW:
-        return {state};
-        // const appointment = {
-        //   ...state.appointments[action.id],
-        //   interview: { ...action.interview }
-        // };
-        
-        // const appointments = {
-        //   ...state.appointments,
-        //   [action.id]: appointment
-        // };
-        // return axios.put(`http://localhost:8001/api/appointments/${action.id}`, appointment)
-        // .then(results => {
-        //   console.log('in hook:', state, action.id, action.appointments)
-        //   const newState = {...state, appointments}
-        //   console.log('old state:', state, '\n\nnew state', newState);
-        //   //  return newState;
-        // })
-        // .catch(err => PromiseRejectionEvent());
+        console.log('set_interview - oldState', state);
+        console.log('set_interview - newState', action.newState)
+        return {...action.newState};
     
     default:
       throw new Error(
@@ -67,12 +52,15 @@ import axios from "axios";
   const cancelInterview = (id) => {
     console.log("in cancelInterview-id =", id)
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(result => console.log('in result:', result))
+      .then(result => {
+        dispatch({type: SET_INTERVIEW, newState: state})
+      })
       .catch(error => PromiseRejectionEvent());
   }
 
   function bookInterview(id, interview) {
     console.log('in bookInterview:', id, '\n\n', interview)
+    //dispatch({ type: SET_INTERVIEW, id, interview })
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -82,12 +70,15 @@ import axios from "axios";
       ...state.appointments,
       [id]: appointment
     };
+    // const newState = {...state, appointments}
+    // dispatch({ type: SET_INTERVIEW, newState: newState })
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
     .then(results => {
       console.log('in hook:', state, id, appointments)
       const newState = {...state, appointments}
+      interview = newState.interview
       console.log('old state:', state, '\n\nnew state', newState);
-      
+      dispatch({ type: SET_INTERVIEW, newState: newState })
     })
     .catch(err => PromiseRejectionEvent())
     // dispatch({type: SET_INTERVIEW, id:id, interview:interview});
