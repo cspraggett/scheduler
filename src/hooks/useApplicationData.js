@@ -18,7 +18,8 @@ import axios from "axios";
       case SET_INTERVIEW:
         console.log('set_interview - oldState', state);
         console.log('set_interview - newState', action.newState)
-        return {...action.newState};
+        
+        return {...action.newState,};
     
     default:
       throw new Error(
@@ -44,7 +45,7 @@ import axios from "axios";
       dispatch({type: SET_APPLICATION_DATA, day: "Monday", days: all[0].data, appointments:
         all[1].data, interviewers: all[2].data })
     }) 
-  },[])
+  },[state.appointment])
 
 
   // const appointments = getAppointmentsForDay(state, state.day);
@@ -53,14 +54,20 @@ import axios from "axios";
     console.log("in cancelInterview-id =", id)
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(result => {
-        dispatch({type: SET_INTERVIEW, newState: state})
+        const newAppointments = state.appointments[id].interview = null;
+        const newState = {...state, newAppointments};
+        newState.days.filter(curr => {
+        
+          if (curr.name === newState.day) {
+            curr.spots++;
+          }
+        }) 
+        dispatch({type: SET_INTERVIEW, newState: newState})
       })
       .catch(error => PromiseRejectionEvent());
   }
 
   function bookInterview(id, interview) {
-    console.log('in bookInterview:', id, '\n\n', interview)
-    //dispatch({ type: SET_INTERVIEW, id, interview })
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -74,10 +81,14 @@ import axios from "axios";
     // dispatch({ type: SET_INTERVIEW, newState: newState })
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
     .then(results => {
-      console.log('in hook:', state, id, appointments)
       const newState = {...state, appointments}
-      interview = newState.interview
-      console.log('old state:', state, '\n\nnew state', newState);
+      // console.log('days', newState.days[appointment.day].spots)
+      newState.days.filter(curr => {
+        
+        if (curr.name === newState.day) {
+          curr.spots--;
+        }
+      }) 
       dispatch({ type: SET_INTERVIEW, newState: newState })
     })
     .catch(err => PromiseRejectionEvent())
