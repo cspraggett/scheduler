@@ -40,9 +40,9 @@ import axios from "axios";
     //       console.log('message recieved:')
     //     })
     Promise.all([
-      axios.get("http://localhost:8001/api/days"),
-      axios.get("http://localhost:8001/api/appointments"),
-      axios.get("http://localhost:8001/api/interviewers")
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
     ])
     .then((all) => {
       dispatch({type: SET_APPLICATION_DATA, day: "Monday", days: all[0].data, appointments:
@@ -50,27 +50,27 @@ import axios from "axios";
     }) 
   },[])
 
-  useEffect(() => {
-    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-    // webSocket.onmessage = (event => {
-    //   console.log('message recieved:')
-    // }) 
-    webSocket.onopen = ((event) => {
-      // webSocket.send('ping');
+  // useEffect(() => {
+  //   const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+  //   // webSocket.onmessage = (event => {
+  //   //   console.log('message recieved:')
+  //   // }) 
+  //   webSocket.onopen = ((event) => {
+  //     // webSocket.send('ping');
       
-    })
-    webSocket.onmessage = (event => {
-      const newData = JSON.parse(event.data);
-      console.log(newData);
-      // if (newData.type = SET_INTERVIEW && newData.id !== state.appointments.id) {
-      //   newData.interview ? bookInterview(newData.id, newData.interview) : cancelInterview(newData.id);
-      //   webSocket.send(SET_INTERVIEW)
-      // }
-      // console.log('socket ready state', webSocket.readyState)
-    })
+  //   })
+  //   webSocket.onmessage = (event => {
+  //     const newData = JSON.parse(event.data);
+  //     console.log(newData);
+  //     // if (newData.type = SET_INTERVIEW && newData.id !== state.appointments.id) {
+  //     //   newData.interview ? bookInterview(newData.id, newData.interview) : cancelInterview(newData.id);
+  //     //   webSocket.send(SET_INTERVIEW)
+  //     // }
+  //     // console.log('socket ready state', webSocket.readyState)
+  //   })
     
         
-  })
+  // })
 
   
 
