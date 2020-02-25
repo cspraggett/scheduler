@@ -99,7 +99,7 @@ it("defaults to Monday and changes the schedule when a new day is selected", asy
     expect(getByText(day, "no spots remaining")).toBeInTheDocument(); 
   })
 
-  xit("shows the delete error when failing to delete an existing appointment", async () => {
+  it("shows the delete error when failing to delete an existing appointment", async () => {
     axios.delete.mockRejectedValueOnce()
     
     const { container, debug } = render(
