@@ -78,19 +78,21 @@ import axios from "axios";
   // const appointments = getAppointmentsForDay(state, state.day);
 
   const cancelInterview = (id) => {
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    return axios.delete(`/api/appointments/${id}`)
       .then(result => {
         const newAppointments = state.appointments[id].interview = null;
         const newState = {...state, newAppointments};
+
         newState.days.filter(curr => {
         
           if (curr.name === newState.day) {
             curr.spots++;
           }
+          // return undefined;
         }) 
         dispatch({type: SET_INTERVIEW, newState: newState})
       })
-      .catch(err => console.log(err));
+      //.catch(err => console.log(err));
   }
 
   function bookInterview(id, interview) {
@@ -105,18 +107,47 @@ import axios from "axios";
     };
     // const newState = {...state, appointments}
     // dispatch({ type: SET_INTERVIEW, newState: newState })
-    return axios.put(`/api/appointments`, appointment)
-    .then(results => {
-      const newState = {...state, appointments}
-      newState.days.filter(curr => {
-        
-        if (curr.name === newState.day) {
-          curr.spots--;
+    return axios.put(`/api/appointments/${id}`, appointment)
+    .then(() => {
+      let newState = {};
+      console.log('appointment',appointment)
+      console.log('state', state.appointments[id].interview)
+      if (!state.appointments[id].interview || appointment !== state.appointments[id].interview){
+        newState = {...state, appointments}
+        if (!state.appointments[id].interview) {
+          newState.days.filter((curr) => {
+            if (curr.name === newState.day){
+                    curr.spots--;
+                  }
+                  return undefined
+          })
+
+          // dispatch({type: SET_APPLICATION_DATA, day: newState.day, days: newState.days, appointments: newState.appointments, interviewers: newState.interviewers})
         }
-      }) 
+      } else {
+        newState = {...state}
+      }
+      // console.log('oldState', state)
+      // console.log('newState', newState)
+      
+      //   console.log('curr', newState.appointments[id].interview)
+      //   console.log('old', state.days[id].appointments[3])
+        // if (newState.appointments[id].interview !== state.appointments[id].interview) {
+        //   newState.days.spots--;
+        // }
+        // newState = {...newState, newState.days.spots - 1}
+        // console.log('newState', newState.days.spots)
+      // newState.days.filter((curr, i) => {
+      //   // if (curr.name === newState.day) {
+      //   //   if (curr.name === state.day[curr.day].id[i]){
+      //   //     curr.spots--;
+      //   //   }
+      //   // }
+      //   return undefined;
+      // }) 
       dispatch({ type: SET_INTERVIEW, newState: newState })
     })
-    .catch(err => console.log(err))//new PromiseRejectionEvent())
+    //.catch(err => console.log(err))//new PromiseRejectionEvent())
     // dispatch({type: SET_INTERVIEW, id:id, interview:interview});
   }
 
