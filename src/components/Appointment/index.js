@@ -45,7 +45,8 @@ export default function Appointment(props) {
     .catch((err) => transition(SAVE_ERROR, true));
        
   }
-  return <article className="appointment">
+  return <article className="appointment"
+          data-testid="appointment">
     <Header time={props.time}></Header>
     {mode === DELETE_ERROR && (
       <Error message={"Could not delete appointment"}

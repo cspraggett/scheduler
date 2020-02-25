@@ -105,7 +105,7 @@ import axios from "axios";
     };
     // const newState = {...state, appointments}
     // dispatch({ type: SET_INTERVIEW, newState: newState })
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
+    return axios.put(`/api/appointments`, appointment)
     .then(results => {
       const newState = {...state, appointments}
       newState.days.filter(curr => {

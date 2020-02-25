@@ -81,5 +81,41 @@ export default {
         data: fixtures.interviewers
       });
     }
-  })
-};
+  }),
+  put: jest.fn(url => {
+    if (url === "/api/days") {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+      });
+    }
+
+    if (url === "/api/appointments") {
+      /* Resolve appointments data */
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+      });
+    }
+
+    if (url === "/api/interviewers") {
+      /* Resolve interviewers data */
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+      });
+    }
+  }),
+ 
+  }
+
+
+
+// get: jest.fn(url => {
+//   if (url === "/api/days") {
+//     return Promise.resolve({
+//       status: 200,
+//       statusText: "OK",
+//       data: fixtures.days
+//     });
+//   }
