@@ -5,9 +5,16 @@ jobs:
       - image: circleci/node:10.16
 
     working_directory: ~/client
-
+    
     steps:
+      - add_ssh_keys:
+        fingerprints:
+          -"a6:8c:62:27:e0:a0:29:49:bd:d0:7b:f8:45:59:1b:19"
       - checkout
+      -run:
+        name: Push Master to Production
+        command: |
+        git push https://github.com/cspraggett/scheduler.git master production
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
