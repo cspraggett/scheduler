@@ -36,3 +36,7 @@ axios 0.19.2
 @testing-library/react-hooks
 react-test-renderer
 
+## Screenshots
+
+!["Screenshot of interview being booked"](https://github.com/cspraggett/scheduler/blob/master/Docs/Interview-Scheduler%20%231.png)
+!["Screenshot of interview being canceled"](https://github.com/cspraggett/scheduler/blob/master/Docs/Interview-Scheduler%20%233.png)
