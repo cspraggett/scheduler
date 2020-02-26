@@ -1,4 +1,4 @@
-// heroku url : https://scheduler-api80.herokuapp.com/
+// heroku url : https://scheduler-api80.herokuapp.com/`
 
 const fixtures = {
   days: [
