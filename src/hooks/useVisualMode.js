@@ -12,19 +12,13 @@ export default function useVisualMode(initial) {
     } else {
       setHistory([...history, value]);
     }
-    // replace ? setHistory(val => val.filter((curr, i) => history[i] !== history.length-1)):
-    // replace ? setHistory(temp = history.slice(history.length - 1), temp.push(value)) :
-    //   setHistory([...history, value]);
     setMode(value);
   });
 
   const back = ()  => {
     if (history.length > 1) {
-      console.log('history', history);
       let temp = history.slice(0, history.length - 1);
-      console.log('temp back', temp);
       setHistory([...temp]);
-      // console.log('new history', history)
       setMode(temp[temp.length - 1]);
     }
   };

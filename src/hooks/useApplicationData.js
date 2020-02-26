@@ -58,8 +58,6 @@ export default function useApplicationData() {
     return axios.put(`/api/appointments/${id}`, appointment)
       .then(() => {
         let newState = {};
-        console.log('appointment',appointment);
-        console.log('state', state.appointments[id].interview);
         if (!state.appointments[id].interview || appointment !== state.appointments[id].interview) {
           newState = {...state, appointments};
           if (!state.appointments[id].interview) {
