@@ -5,16 +5,9 @@ jobs:
       - image: circleci/node:10.16
 
     working_directory: ~/client
-    
+
     steps:
-      - add_ssh_keys:
-        fingerprints:
-          -"a6:8c:62:27:e0:a0:29:49:bd:d0:7b:f8:45:59:1b:19"
       - checkout
-      -run:
-        name: Push Master to Production
-        command: |
-        git push https://github.com/cspraggett/scheduler.git master production
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -26,8 +19,90 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
 
+  deploy:
+    machine:
+      enabled: true
+
+    working_directory: ~/client
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a6:8c:62:27:e0:a0:29:49:bd:d0:7b:f8:45:59:1b:19"
+      - checkout
+      - run:
+          name: Push Master to Production
+          command: |
+            git push https://github.com/cspraggett/scheduler.git master:production
+
 workflows:
   version: 2
-  test:
+  test_and_deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore: production
+      - deploy:
+          filters:
+            branches:
+              ignore: production
+          requires:
+            - build
+
+
+
+
+
+
+# version: 2
+# jobs:
+#   build:
+#     docker:
+#       - image: circleci/node:10.1`
+
+#     working_directory: ~/client
+    
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys:
+#             - v1-dependencies-{{ checksum "package.json" }}
+#             - v1-dependencies-
+#       - run: npm install
+#       - save_cache:
+#           paths:
+#             - node_modules
+#           key: v1-dependencies-{{ checksum "package.json" }}
+#       - run: npm test
+
+#     deploy: 
+#       machine:
+#         enabled: true
+      
+#       working_directory: ~/client
+
+#       steps:
+#         - add_ssh_keys:
+#           fingerprints:
+#            -"a6:8c:62:27:e0:a0:29:49:bd:d0:7b:f8:45:59:1b:19"
+#       - checkout
+#       -run:
+#         name: Push Master to Production
+#         command: |
+#          git push https://github.com/cspraggett/scheduler.git master production
+
+# workflows:
+#   version: 2
+#   test_and_deploy:
+#     jobs:
+#       - build:
+#           filters:
+#             branches:
+#               ignore: production
+#       - deploy:
+#           filters:
+#             branches:
+#               ignore: production
+#           requires:
+#             - build
