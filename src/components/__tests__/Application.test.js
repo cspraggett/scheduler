@@ -11,48 +11,48 @@ afterEach(cleanup);
 
 describe("Application", () => {
 
-it("defaults to Monday and changes the schedule when a new day is selected", async () => {
-  const { getByText } = render(<Application />);
+  it("defaults to Monday and changes the schedule when a new day is selected", async() => {
+    const { getByText } = render(<Application />);
 
-  await waitForElement(() => getByText("Monday"));
+    await waitForElement(() => getByText("Monday"));
 
-  fireEvent.click(getByText("Tuesday"));
+    fireEvent.click(getByText("Tuesday"));
 
-  expect(getByText("Leopold Silvers")).toBeInTheDocument();
+    expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
 
-  it ("loads data, books an interview and reduces the spots remianing for the day by 1", async () => {
-    cleanup()
-    const { container, debug } = render( <Application /> )
+  it("loads data, books an interview and reduces the spots remianing for the day by 1", async() => {
+    cleanup();
+    const { container, debug } = render(<Application />);
 
-       await waitForElement(() => getByText(container, "Archie Cohen"));
+    await waitForElement(() => getByText(container, "Archie Cohen"));
 
-        const appointment = getAllByTestId(container, "appointment")[0];
+    const appointment = getAllByTestId(container, "appointment")[0];
 
-        fireEvent.click(getByAltText(appointment, "Add"));
+    fireEvent.click(getByAltText(appointment, "Add"));
         
-        fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
-          target: {value: "Lydia Miller-Jones"}
-        });
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: {value: "Lydia Miller-Jones"}
+    });
 
-        fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
                   
-        fireEvent.click(getByText(appointment, "Save"));
+    fireEvent.click(getByText(appointment, "Save"));
 
-        expect(getByText(appointment, "Saving")).toBeInTheDocument();
+    expect(getByText(appointment, "Saving")).toBeInTheDocument();
 
-        await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
 
-        const day = getAllByTestId(container, "day").find(day => 
-          queryByText(day, "Monday"));
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday"));
 
-        expect(getByText(day, "no spots remaining")).toBeInTheDocument();
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
 
  
-  it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
+  it("loads data, edits an interview and keeps the spots remaining for Monday the same", async() => {
 
-    const { container, debug } = render( <Application /> )
+    const { container, debug } = render(<Application />);
 
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const appointment = getAllByTestId(container, "appointment").find(
@@ -60,26 +60,26 @@ it("defaults to Monday and changes the schedule when a new day is selected", asy
     );
     fireEvent.click(getByAltText(appointment, "Edit"));
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
-    target: {value: "Leonard Cohen"}
+      target: {value: "Leonard Cohen"}
     });
     fireEvent.click(getByText(appointment, "Save"));
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
     await waitForElement(() => getByText(appointment, "1pm"));
-    const day = getAllByTestId(container, "day").find(day => 
-    queryByText(day, "Monday"));
-    expect(getByText(day, "no spots remaining")).toBeInTheDocument();      
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday"));
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
     
-    debug();  
+    debug();
   });
 
   it("shows the save error when failing to save an appointment", () => {
     axios.put.mockRejectedValueOnce();
   });
 
-  it("shows the save error when failing to save an appointment", async () => {
-    axios.put.mockRejectedValueOnce()
+  it("shows the save error when failing to save an appointment", async() => {
+    axios.put.mockRejectedValueOnce();
     
-    const { container, debug } = render( <Application /> )
+    const { container, debug } = render(<Application />);
 
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const appointment = getAllByTestId(container, "appointment").find(
@@ -87,23 +87,23 @@ it("defaults to Monday and changes the schedule when a new day is selected", asy
     );
     fireEvent.click(getByAltText(appointment, "Edit"));
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
-    target: {value: "Leonard Cohen"}
+      target: {value: "Leonard Cohen"}
     });
     fireEvent.click(getByText(appointment, "Save"));
     // expect(getByText(appointment, "Saving")).toBeInTheDocument();
     await waitForElement(() => getByText(appointment, "1pm"));
-    const day = getAllByTestId(container, "day").find(day => 
+    const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday"));
-      console.log(prettyDOM(appointment))
+    console.log(prettyDOM(appointment));
     expect(getByText(appointment, "Error")).toBeInTheDocument();
-    expect(getByText(day, "no spots remaining")).toBeInTheDocument(); 
-  })
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
+  });
 
-  it("shows the delete error when failing to delete an existing appointment", async () => {
-    axios.delete.mockRejectedValueOnce()
+  it("shows the delete error when failing to delete an existing appointment", async() => {
+    axios.delete.mockRejectedValueOnce();
     
     const { container, debug } = render(
-      <Application /> )
+      <Application />);
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const appointment = getAllByTestId(container, "appointment").find(
@@ -123,17 +123,17 @@ it("defaults to Monday and changes the schedule when a new day is selected", asy
     await waitForElement(() => getByText(appointment, "1pm"));
     console.log(prettyDOM(appointment));
     // 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
-    const day = getAllByTestId(container, "day").find(day => 
+    const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday"));
-      expect(getByText(appointment, "Error")).toBeInTheDocument();
-      expect(getByText(day, "no spots remaining")).toBeInTheDocument();      
-      // debug();
-  })
+    expect(getByText(appointment, "Error")).toBeInTheDocument();
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
+    // debug();
+  });
 
-  it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
+  it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async() => {
     // 1. Render the Application.
     const { container, debug } = render(
-      <Application /> )
+      <Application />);
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const appointment = getAllByTestId(container, "appointment").find(
@@ -153,10 +153,10 @@ it("defaults to Monday and changes the schedule when a new day is selected", asy
     await waitForElement(() => getByText(appointment, "1pm"));
     
     // 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
-    const day = getAllByTestId(container, "day").find(day => 
+    const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday"));
-      expect(getByText(day, "1 spot remaining")).toBeInTheDocument();      
-      // debug();
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+    // debug();
   });
 
 });
