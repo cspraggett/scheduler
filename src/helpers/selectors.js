@@ -1,8 +1,8 @@
- function getAppointmentsForDay(state, day) {
+const getAppointmentsForDay = ((state, day) => {
   if (state.days.length === 0) {
     return [];
   }
-  const appointmentDay = state.days.filter(curr => curr.name === day);  
+  const appointmentDay = state.days.filter(curr => curr.name === day);
   if (appointmentDay.length === 0) {
     return [];
   }
@@ -14,9 +14,9 @@
     }
   }
   return ret;
-}
+});
 
- function getInterview(state, interview) {
+const getInterview = ((state, interview) => {
   if (!interview || !interview.interviewer) {
     return null;
   }
@@ -27,14 +27,14 @@
       name: state.interviewers[interview.interviewer].name,
       avatar: state.interviewers[interview.interviewer].avatar
     }
-  }
-}
+  };
+});
 
-function getInterviewersForDay(state, day) {
+const getInterviewersForDay = ((state, day) => {
   if (state.days.length === 0) {
     return [];
   }
-  const appointmentDay = state.days.filter(curr => curr.name === day.day);  
+  const appointmentDay = state.days.filter(curr => curr.name === day.day);
   if (appointmentDay.length === 0) {
     return [];
   }
@@ -46,6 +46,6 @@ function getInterviewersForDay(state, day) {
     }
   }
   return ret;
-}
+});
 
 module.exports = {getAppointmentsForDay, getInterview, getInterviewersForDay};

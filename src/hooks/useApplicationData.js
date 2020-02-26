@@ -10,8 +10,6 @@ import {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW} from "../reducers/applicat
 
 export default function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, {day: "Monday", days: [], appointments: {}, interviewers: {}});
-    
-    
   const setDay = day => dispatch({type: SET_DAY, day});
 
   // This useEffect is triggered when the app loads and populates the state with data from the api server.
