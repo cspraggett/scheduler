@@ -40,11 +40,9 @@ export default function Appointment(props) {
     transition(SAVE);
     props.bookInterview(props.id, interview)
       .then(() => {
-        console.log('in show');
         transition(SHOW);
       })
       .catch((err) => {
-        console.log('in error');
         transition(SAVE_ERROR, true);
       });
   });

@@ -94,7 +94,6 @@ describe("Application", () => {
     await waitForElement(() => getByText(appointment, "1pm"));
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday"));
-    console.log(prettyDOM(appointment));
     expect(getByText(appointment, "Error")).toBeInTheDocument();
     expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
@@ -121,7 +120,6 @@ describe("Application", () => {
     expect(getByText(appointment, "Deleting")).toBeInTheDocument();
     // 7. Wait until the element with the "Add" button is displayed.
     await waitForElement(() => getByText(appointment, "1pm"));
-    console.log(prettyDOM(appointment));
     // 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday"));
