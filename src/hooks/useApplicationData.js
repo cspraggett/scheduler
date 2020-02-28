@@ -24,6 +24,21 @@ export default function useApplicationData() {
         all[1].data, interviewers: all[2].data });
       });
   },[]);
+
+  useEffect(() => {
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    // webSocket.onmessage = (event => {
+    //   console.log('message recieved:')
+    // })
+    // webSocket.onmessage = (event => {
+    //   const newData = JSON.parse(event.data);
+    //   console.log(newData);
+      // if (newData.type = SET_INTERVIEW && newData.id !== state.appointments.id) {
+      //   newData.interview ? bookInterview(newData.id, newData.interview) : cancelInterview(newData.id);
+      //   webSocket.send(SET_INTERVIEW)
+      // }
+      // console.log('socket ready state', webSocket.readyState)
+    })
   
   // cancelInterview sends a DELETE request through axio to the API server and removes the interview
   // from the database and then dispatches the new state to the reducer.
@@ -81,24 +96,7 @@ export default function useApplicationData() {
 }
 
 //TODO Begining of webSocket implementaion.
-// useEffect(() => {
-//   const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-//   // webSocket.onmessage = (event => {
-//   //   console.log('message recieved:')
-//   // })
-//   webSocket.onopen = ((event) => {
-//     // webSocket.send('ping');
-      
-//   })
-//   webSocket.onmessage = (event => {
-//     const newData = JSON.parse(event.data);
-//     console.log(newData);
-//     // if (newData.type = SET_INTERVIEW && newData.id !== state.appointments.id) {
-//     //   newData.interview ? bookInterview(newData.id, newData.interview) : cancelInterview(newData.id);
-//     //   webSocket.send(SET_INTERVIEW)
-//     // }
-//     // console.log('socket ready state', webSocket.readyState)
-//   })
+
     
         
 // })
