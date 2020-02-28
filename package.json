@@ -58,5 +58,5 @@
       "!src/index.js"
     ]
   },
-  "proxy": "https://scheduler-api80.herokuapp.com/"
+  "proxy": "http://localhost:8001"
 }
