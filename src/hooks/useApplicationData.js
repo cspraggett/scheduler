@@ -39,7 +39,6 @@ export default function useApplicationData() {
   //     // }
   //     // console.log('socket ready state', webSocket.readyState)
   //   })
-  
   // cancelInterview sends a DELETE request through axio to the API server and removes the interview
   // from the database and then dispatches the new state to the reducer.
   const cancelInterview = (id) => {
