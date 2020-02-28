@@ -25,21 +25,20 @@ export default function useApplicationData() {
       });
   },[]);
 
-  useEffect(() => {
-    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-    // webSocket.onmessage = (event => {
-    //   console.log('message recieved:')
-    // })
-    // webSocket.onmessage = (event => {
-    //   const newData = JSON.parse(event.data);
-    //   console.log(newData);
-      // if (newData.type = SET_INTERVIEW && newData.id !== state.appointments.id) {
-      //   newData.interview ? bookInterview(newData.id, newData.interview) : cancelInterview(newData.id);
-      //   webSocket.send(SET_INTERVIEW)
-      // }
-      // console.log('socket ready state', webSocket.readyState)
-    })
-  
+  // useEffect(() => {
+  //   const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+  //   // webSocket.onmessage = (event => {
+  //   //   console.log('message recieved:')
+  //   // })
+  //   // webSocket.onmessage = (event => {
+  //   //   const newData = JSON.parse(event.data);
+  //   //   console.log(newData);
+  //     // if (newData.type = SET_INTERVIEW && newData.id !== state.appointments.id) {
+  //     //   newData.interview ? bookInterview(newData.id, newData.interview) : cancelInterview(newData.id);
+  //     //   webSocket.send(SET_INTERVIEW)
+  //     // }
+  //     // console.log('socket ready state', webSocket.readyState)
+  //   })
   // cancelInterview sends a DELETE request through axio to the API server and removes the interview
   // from the database and then dispatches the new state to the reducer.
   const cancelInterview = (id) => {
